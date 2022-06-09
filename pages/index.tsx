@@ -7,7 +7,20 @@ import { NftMeta } from '@_types/nft';
 import { useWeb3 } from '@providers/web3';
 
 const Home: NextPage = () => {
+<<<<<<< HEAD
   const { provider, contract } = useWeb3();
+=======
+  const { provider } = useWeb3();
+
+  const getAccounts = async () => {
+    const accounts = await provider!.listAccounts();
+    console.log(accounts[0]); // акаунт пользователя metamask
+  };
+
+  if (provider) {
+    getAccounts();                           
+  }
+>>>>>>> 82332f9493b5d91dada2c5191f0e84e21fce4a05
 
   return (
     <BaseLayout>
