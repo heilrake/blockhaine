@@ -2,25 +2,11 @@
 
 import type { NextPage } from 'next';
 import { BaseLayout, NftList } from '@ui';
-import nfts from '../content/meta.json';
-import { NftMeta } from '@_types/nft';
-import { useWeb3 } from '@providers/web3';
+import { useNetwork } from '@hooks/web3';
+import { ExclamationIcon } from '@heroicons/react/solid';
 
 const Home: NextPage = () => {
-<<<<<<< HEAD
-  const { provider, contract } = useWeb3();
-=======
-  const { provider } = useWeb3();
-
-  const getAccounts = async () => {
-    const accounts = await provider!.listAccounts();
-    console.log(accounts[0]); // акаунт пользователя metamask
-  };
-
-  if (provider) {
-    getAccounts();                           
-  }
->>>>>>> 82332f9493b5d91dada2c5191f0e84e21fce4a05
+  const { network } = useNetwork();
 
   return (
     <BaseLayout>
@@ -37,7 +23,25 @@ const Home: NextPage = () => {
               Mint a NFT to get unlimited ownership forever!
             </p>
           </div>
-          <NftList nfts={nfts as NftMeta[]} />
+          {network.isConnectedToNetwork ? (
+            <NftList />
+          ) : (
+            <div className="rounded-md bg-yellow-50 p-4 mt-10">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <ExclamationIcon className="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-yellow-800">Attention needed</h3>
+                  <div className="mt-2 text-sm text-yellow-700">
+                    <p>
+                      {network.isLoading ? 'Loading...' : `Connect to ${network.targetNetwork}`}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </BaseLayout>
